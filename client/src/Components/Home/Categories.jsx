@@ -7,6 +7,7 @@ import {
 	TableHead,
 	TableRow,
 } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import React from "react";
 import { categories } from "../../constants/data";
 
@@ -20,15 +21,21 @@ const useStyles = makeStyles({
 	table: {
 		border: "1px solid rgba(244,244,244,1)",
 	},
+	link: {
+		textDecoration: "none",
+		color: "inherit",
+	},
 });
 
 export default function Categories() {
 	const classes = useStyles();
 	return (
 		<>
-			<Button variant='contained' className={classes.create}>
-				Create Blog
-			</Button>
+			<Link to='/create' className={classes.link}>
+				<Button variant='contained' className={classes.create}>
+					Create Blog
+				</Button>
+			</Link>
 			<Table className={classes.table}>
 				<TableHead>
 					<TableRow>
