@@ -6,8 +6,10 @@ import {
 	makeStyles,
 	TextareaAutosize,
 } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import { AddCircle } from "@material-ui/icons";
+import { CreatePost } from "../../Service/api";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -42,18 +44,50 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+const initialValues = {
+	title: "",
+	description: "",
+	picture: "",
+	username: "lewis",
+	categories: "All",
+	createDate: new Date(),
+};
+
 export default function CreateView() {
 	const url =
 		"https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80    ";
 	const classes = useStyles();
+
+	const [post, setPost] = useState(initialValues);
+
+	const history = useNavigate();
+
+	const handleChange = (e) => {
+		setPost({ ...post, [e.target.name]: e.target.value });
+	};
+
+	const savePost = async () => {
+		await CreatePost(post);
+		history("/");
+	};
+
 	return (
 		<>
 			<Box className={classes.container}>
 				<img src={url} alt='Banner' className={classes.image} />
 				<FormControl className={classes.form}>
 					<AddCircle fontSize='large' color='action' />
-					<InputBase placeholder='Title' className={classes.textfield} />
-					<Button variant='contained' color='primary'>
+					<InputBase
+						onChange={(e) => handleChange(e)}
+						placeholder='Title'
+						className={classes.textfield}
+						name='title'
+					/>
+					<Button
+						onClick={() => savePost()}
+						variant='contained'
+						color='primary'
+					>
 						Publish
 					</Button>
 				</FormControl>
@@ -61,6 +95,8 @@ export default function CreateView() {
 					rowsMin={5}
 					placeholder='Write your thoughts out....'
 					className={classes.textarea}
+					onChange={(e) => handleChange(e)}
+					name='description'
 				/>
 			</Box>
 		</>
