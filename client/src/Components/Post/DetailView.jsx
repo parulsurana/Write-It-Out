@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, makeStyles, Typography } from "@material-ui/core";
 import { Edit, Delete } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getPost, deletePost } from "../../Service/api.js";
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -46,35 +48,61 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function DetailView() {
+const DetailView = () => {
 	const classes = useStyles();
 	const url =
 		"https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80  ";
+
+	const [post, setPost] = useState({});
+
+	const history = useNavigate();
+
+	let { id } = useParams();
+	console.log(id);
+	useEffect(() => {
+		const fetchData = async () => {
+			let data = await getPost(id);
+			console.log(data);
+			setPost(data);
+		};
+		fetchData();
+	}, []);
+
+	const deleteBlog = async () => {
+		await deletePost(post._id);
+		history("/");
+	};
 	return (
 		<>
 			<Box className={classes.container}>
-				<img src={url} alt='DetailViewImg' className={classes.image} />
+				<img
+					src={post.picture || url}
+					alt='DetailViewImg'
+					className={classes.image}
+				/>
 				<Box className={classes.icons}>
-					<Link to='/update'>
+					<Link to={`/update/${post._id}`}>
 						<Edit className={classes.icon} color='primary' />
 					</Link>
-					<Delete className={classes.icon} color='error' />
+					<Delete
+						onClick={() => deleteBlog()}
+						className={classes.icon}
+						color='error'
+					/>
 				</Box>
-				<Typography className={classes.heading}>Title of the Blog</Typography>
+				<Typography className={classes.heading}>{post.title}</Typography>
 				<Box className={classes.subheading}>
 					<Typography>
-						Author: <span style={{ fontWeight: 600 }}>Lewis</span>
+						Author: <span style={{ fontWeight: 600 }}>{post.username}</span>
 					</Typography>
-					<Typography style={{ marginLeft: "auto" }}>1st Feb 2022</Typography>
+					<Typography style={{ marginLeft: "auto" }}>
+						{new Date(post.createDate).toDateString()}
+					</Typography>
 				</Box>
-				<Typography className={classes.para}>
-					ReactJs is an open source Javascript Library. Using this UI design
-					become easy and it is an scalable technology. ReactJs is an open
-					source Javascript Library. Using this UI design become easy and it is
-					an scalable technology.ReactJs is an open source Javascript Library.
-					Using this UI design become easy and it is an scalable technology.
-				</Typography>
+				<Typography className={classes.para}>{post.description}</Typography>
 			</Box>
 		</>
 	);
-}
+};
+
+export default DetailView;

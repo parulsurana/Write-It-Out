@@ -15,9 +15,9 @@ function App() {
 				<Box style={{ marginTop: 64 }}>
 					<Routes>
 						<Route path='/' element={<Home />} />
-						<Route path='/details' element={<DetailView />} />
+						<Route path='/details/:id' element={<DetailView />} />
 						<Route path='/create' element={<CreateView />} />
-						<Route path='/update' element={<UpdateView />} />
+						<Route path='/update/:id' element={<UpdateView />} />
 					</Routes>
 				</Box>
 			</Router>
