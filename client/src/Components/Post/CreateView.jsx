@@ -6,9 +6,9 @@ import {
 	makeStyles,
 	TextareaAutosize,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AddCircle } from "@material-ui/icons";
-import { CreatePost } from "../../Service/api";
+import { CreatePost, uploadFile } from "../../Service/api";
 import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -59,6 +59,7 @@ export default function CreateView() {
 	const classes = useStyles();
 
 	const [post, setPost] = useState(initialValues);
+	const [file, setFile] = useState(``);
 
 	const history = useNavigate();
 
@@ -71,12 +72,35 @@ export default function CreateView() {
 		history("/");
 	};
 
+	useEffect(() => {
+		const getImage = async () => {
+			if (file) {
+				console.log(file);
+				const data = new FormData();
+				data.append("name", file.name);
+				data.append("file", file);
+
+				const image = await uploadFile(data);
+				post.picture = image.data;
+			}
+		};
+		getImage();
+	}, [file]);
+
 	return (
 		<>
 			<Box className={classes.container}>
 				<img src={url} alt='Banner' className={classes.image} />
 				<FormControl className={classes.form}>
-					<AddCircle fontSize='large' color='action' />
+					<label htmlFor='fileinput'>
+						<AddCircle fontSize='large' color='action' />
+					</label>
+					<input
+						type='file'
+						id='fileinput'
+						style={{ display: "none" }}
+						onChange={(e) => setFile(e.target.files[0])}
+					/>
 					<InputBase
 						onChange={(e) => handleChange(e)}
 						placeholder='Title'
