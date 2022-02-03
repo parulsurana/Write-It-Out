@@ -46,6 +46,10 @@ const useStyles = makeStyles((theme) => ({
 			textAlign: "center",
 		},
 	},
+	link: {
+		textDecoration: "none",
+		color: "inherit",
+	},
 }));
 
 const DetailView = () => {
@@ -92,9 +96,12 @@ const DetailView = () => {
 				</Box>
 				<Typography className={classes.heading}>{post.title}</Typography>
 				<Box className={classes.subheading}>
-					<Typography>
-						Author: <span style={{ fontWeight: 600 }}>{post.username}</span>
-					</Typography>
+					<Link to={`/?username=${post.username}`} className={classes.link}>
+						{" "}
+						<Typography>
+							Author: <span style={{ fontWeight: 600 }}>{post.username}</span>
+						</Typography>
+					</Link>
 					<Typography style={{ marginLeft: "auto" }}>
 						{new Date(post.createDate).toDateString()}
 					</Typography>

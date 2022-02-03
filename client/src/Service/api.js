@@ -10,9 +10,9 @@ export const CreatePost = async (post) => {
 	}
 };
 
-export const getAllPost = async () => {
+export const getAllPost = async (param) => {
 	try {
-		let response = await axios.get(`${URL}/posts`);
+		let response = await axios.get(`${URL}/posts${param}`);
 		return response.data;
 	} catch (err) {
 		console.log("Error while calling getAllPost API", err);
