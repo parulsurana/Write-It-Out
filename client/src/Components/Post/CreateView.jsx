@@ -49,7 +49,7 @@ const initialValues = {
 	description: "",
 	picture: "",
 	username: "charles",
-	categories: "All",
+	categories: "Fashion",
 	createDate: new Date(),
 };
 
