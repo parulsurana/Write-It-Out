@@ -25,6 +25,7 @@ export const uploadImage = (req, res) => {
 export const getImage = async (req, res) => {
 	try {
 		const file = await gfs.files.findOne({ filename: req.params.filename });
+		console.log(file);
 		const readStream = gfs.createReadStream(file.filename);
 		readStream.pipe(res);
 	} catch (err) {

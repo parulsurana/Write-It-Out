@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { getPost, deletePost } from "../../Service/api.js";
 import { useParams } from "react-router-dom";
 
+import Comments from "../../comments/comments.jsx";
+
 const useStyles = makeStyles((theme) => ({
 	container: {
 		padding: "0 100px",
@@ -107,6 +109,7 @@ const DetailView = () => {
 					</Typography>
 				</Box>
 				<Typography className={classes.para}>{post.description}</Typography>
+				<Comments post={post} />
 			</Box>
 		</>
 	);

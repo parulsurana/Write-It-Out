@@ -85,7 +85,7 @@ export default function CreateView() {
 
 				const image = await uploadFile(data);
 				post.picture = image.data;
-				setImage(post.data);
+				setImage(image.data);
 			}
 		};
 		getImage();
