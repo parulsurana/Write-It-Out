@@ -27,7 +27,13 @@ function Header() {
 					</Link>
 					<Typography>ABOUT</Typography>
 					<Typography>CONTACT</Typography>
-					<Typography>LOGIN</Typography>
+					<Link
+						to='/login'
+						style={{ textDecoration: "none", color: "inherit" }}
+					>
+						{" "}
+						<Typography>LOGIN</Typography>
+					</Link>
 				</Toolbar>
 			</AppBar>
 		</>

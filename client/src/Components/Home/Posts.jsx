@@ -18,14 +18,17 @@ export default function Posts() {
 	}, [search]);
 
 	// let posts = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-	return posts.map((post) => (
-		<Grid items lg={3} sm={4} xs={12}>
-			<Link
-				to={`/details/${post._id}`}
-				style={{ textDecoration: "none", color: "inherit" }}
-			>
-				<Post post={post} />
-			</Link>
-		</Grid>
-	));
+	return (
+		posts &&
+		posts.map((post) => (
+			<Grid items lg={3} sm={4} xs={12}>
+				<Link
+					to={`/details/${post._id}`}
+					style={{ textDecoration: "none", color: "inherit" }}
+				>
+					<Post post={post} />
+				</Link>
+			</Grid>
+		))
+	);
 }

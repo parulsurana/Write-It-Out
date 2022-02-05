@@ -52,13 +52,13 @@ export default function Post({ post }) {
 				<img src={url} alt='Wrapper' className={classes.image} />
 				<Typography className={classes.text}>{post.categories}</Typography>
 				<Typography className={classes.heading}>
-					{addElipsis(post.title, 20)}
+					{addElipsis(post.title, 40)}
 				</Typography>
 				<Typography className={classes.text}>
 					Author: {post.username}
 				</Typography>
 				<Typography className={classes.detail}>
-					{addElipsis(post.description, 100)}
+					{addElipsis(post.description, 200)}
 				</Typography>
 			</Box>
 		</>
