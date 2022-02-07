@@ -10,8 +10,9 @@ import {
 } from "@material-ui/core";
 import { Lock } from "@material-ui/icons";
 
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { CreateData } from "../../Service/api";
 
 export default function SignUp() {
 	const paperStyles = {
@@ -35,6 +36,30 @@ export default function SignUp() {
 	const linkStylesSignup = {
 		marginTop: 8,
 	};
+
+	const history = useNavigate();
+	const [user, setUser] = useState({
+		name: "",
+		email: "",
+		phone: "",
+		password: "",
+		cpassword: "",
+	});
+
+	let name, value;
+	const handleInputs = (e) => {
+		console.log(e);
+		name = e.target.name;
+		value = e.target.value;
+
+		setUser({ ...user, [name]: value });
+	};
+
+	const saveData = async () => {
+		await CreateData(user);
+		history("/login");
+	};
+
 	return (
 		<>
 			<Grid>
@@ -45,10 +70,19 @@ export default function SignUp() {
 						</Avatar>
 						<h1>SignUp</h1>
 					</Grid>
-					<TextField label='Name' placeholder='Enter Name' fullWidth required />
+					<TextField
+						label='Name'
+						placeholder='Enter Name'
+						onChange={handleInputs}
+						name='name'
+						fullWidth
+						required
+					/>
 					<TextField
 						label='Email'
 						placeholder='Enter Email'
+						onChange={handleInputs}
+						name='email'
 						fullWidth
 						required
 					/>
@@ -56,6 +90,8 @@ export default function SignUp() {
 						label='Phone Number'
 						placeholder='Enter phone number'
 						type='phone'
+						onChange={handleInputs}
+						name='phone'
 						fullWidth
 						required
 					/>
@@ -63,6 +99,8 @@ export default function SignUp() {
 						label='Password'
 						placeholder='Enter Password'
 						type='password'
+						onChange={handleInputs}
+						name='password'
 						fullWidth
 						required
 					/>
@@ -70,6 +108,8 @@ export default function SignUp() {
 						label='Confirm Password'
 						placeholder='Enter CPassword'
 						type='password'
+						onChange={handleInputs}
+						name='cpassword'
 						fullWidth
 						required
 					/>
@@ -82,6 +122,7 @@ export default function SignUp() {
 					<Button
 						color='primary'
 						variant='contained'
+						onClick={() => saveData()}
 						// fullWidth
 						style={buttonStyles}
 					>

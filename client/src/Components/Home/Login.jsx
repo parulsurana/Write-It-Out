@@ -9,9 +9,10 @@ import {
 	Typography,
 } from "@material-ui/core";
 
-import React from "react";
+import React, { useState } from "react";
 import { Lock } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { SaveLoginData } from "../../Service/api";
 
 export default function Login() {
 	const paperStyles = {
@@ -35,6 +36,28 @@ export default function Login() {
 	const linkStylesSignup = {
 		marginTop: 8,
 	};
+
+	const [loginuser, setLoginuser] = useState({
+		email: "",
+		password: "",
+	});
+
+	const history = useNavigate();
+
+	let name, value;
+	const handleuserInputs = (e) => {
+		console.log(e);
+		name = e.target.name;
+		value = e.target.value;
+
+		setLoginuser({ ...loginuser, [name]: value });
+	};
+
+	const saveUserData = async () => {
+		await SaveLoginData(loginuser);
+		history("/");
+	};
+
 	return (
 		<>
 			<Grid>
@@ -46,8 +69,10 @@ export default function Login() {
 						<h1>SignIn</h1>
 					</Grid>
 					<TextField
-						label='Username'
-						placeholder='Enter Username'
+						label='Email'
+						placeholder='Enter Email'
+						name='email'
+						onChange={handleuserInputs}
 						fullWidth
 						required
 					/>
@@ -55,6 +80,8 @@ export default function Login() {
 						label='Password'
 						placeholder='Enter Password'
 						type='password'
+						name='password'
+						onChange={handleuserInputs}
 						fullWidth
 						required
 					/>
@@ -64,7 +91,12 @@ export default function Login() {
 						style={checkStyles}
 					/>
 					<Grid>
-						<Button color='primary' variant='contained' style={buttonStyles}>
+						<Button
+							color='primary'
+							variant='contained'
+							onClick={() => saveUserData()}
+							style={buttonStyles}
+						>
 							SignIn
 						</Button>
 					</Grid>

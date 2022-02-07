@@ -77,3 +77,22 @@ export const deleteComment = async (id) => {
 		console.log("Error while calling deleteComment API", err);
 	}
 };
+
+//Signup
+
+export const CreateData = async (user) => {
+	try {
+		return await axios.post(`${URL}/register`, user);
+	} catch (err) {
+		console.log("Error while calling CreatePost API", err);
+	}
+};
+
+//Signin
+export const SaveLoginData = async (email, password) => {
+	try {
+		return await axios.post(`${URL}/signin`, email, password);
+	} catch (err) {
+		console.log("Error while calling CreatePost API", err);
+	}
+};
